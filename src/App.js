@@ -1,11 +1,7 @@
 import React from 'react';
-import {
-  Link,
-  Route,
-  BrowserRouter as Router,
-  Routes
-} from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import './App.css';
+import Header from './header';
 
 function App() {
   return (
@@ -13,7 +9,7 @@ function App() {
       <Router>
       <>
         <Routes>
-          <Route path="/" exact element={<h1>This is the homepage</h1>} />
+          <Route path="/" exact element={<Header />} />     
         </Routes>
       </>
     </Router>
