@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import './App.css';
+import { AppBody } from './app.styles';
 import Header from './components/header/header';
 
 function App() {
@@ -8,9 +9,12 @@ function App() {
     <div className="app">
       <Router>
       <>
-        <Routes>
-          <Route path="/" exact element={<Header />} />     
-        </Routes>
+        <Header />
+        <AppBody>
+          <Routes>
+            <Route path="/" exact element={<h1>Chat</h1>}/>     
+          </Routes>
+        </AppBody>
       </>
     </Router>
     </div>
@@ -18,3 +22,4 @@ function App() {
 }
 
 export default App;
+
