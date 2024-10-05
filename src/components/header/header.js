@@ -8,7 +8,7 @@ function Header () {
     return <HeaderContainer>
         <HeaderLeft>
             <HeaderAvatar 
-                // TODO: Add onclick
+                
             />
             <AccessTimeIcon />
         </HeaderLeft>
