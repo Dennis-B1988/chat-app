@@ -2,5 +2,5 @@ import styled from 'styled-components';
 
 export const AppBody = styled.div`
   display: flex;
-  height: 90vh;
+  height: 100vh;
 `;
