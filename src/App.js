@@ -1,7 +1,8 @@
 import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import './App.css';
-import { AppBody } from './app.styles';
+import { AppBody } from './App.styles';
+import Chat from './components/chat/chat';
 import Header from './components/header/header';
 import Sidebar from './components/sidebar/sidebar';
 
@@ -14,7 +15,7 @@ function App() {
         <AppBody>
           <Sidebar />
           <Routes>
-            <Route path="/" exact element={<h1>Chat</h1>}/>     
+            <Route path="/" element={<Chat />}/>   
           </Routes>
         </AppBody>
       </>
