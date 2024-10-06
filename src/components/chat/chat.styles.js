@@ -50,4 +50,18 @@ export const ChatHeaderRight = styled.div`
         margin-right: 5px !important;
         font-size: 16px;
     }
-`
+`;
+
+export const ChatMessages = styled.div`
+
+`;
+
+export const ChatInput = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    position: sticky;
+    bottom: 0;
+    background-color: white;
+    z-index: 100;
+`;
