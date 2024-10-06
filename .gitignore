@@ -12,7 +12,7 @@
 /build
 
 # firebase
-src/firebase.js
+src/environment/firebase.prod.js
 
 
 # misc
