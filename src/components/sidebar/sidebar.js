@@ -11,6 +11,8 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import React from 'react';
 import SidebarOption from '../sidebar-option/sidebar-option';
 import { SidebarContainer, SidebarHeader, SidebarInfo } from './sidebar.styles';
+import AddIcon from '@mui/icons-material/Add';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
 function Sidebar() {
@@ -35,6 +37,10 @@ function Sidebar() {
         <SidebarOption Icon={AppsIcon} title="Apps" />
         <SidebarOption Icon={FileCopyIcon} title="File browser" />
         <SidebarOption Icon={ExpandLessIcon} title="Show less" />
+        <hr />
+        <SidebarOption Icon={ExpandMoreIcon} title="Channels" />
+        <hr />
+        <SidebarOption Icon={AddIcon} addChannelOption title="Add Channel" />
 
     </SidebarContainer>
   )
