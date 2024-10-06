@@ -1,13 +1,18 @@
 import React from 'react';
-import { SidebarOptionContainer } from './sidebar-option.styles';
+import { SidebarOptionChannel, SidebarOptionContainer } from './sidebar-option.styles';
 
-function SidebarOption() {
+function SidebarOption({ Icon, title }) {
   return (
-    <div>
-        <SidebarOptionContainer>
-
-        </SidebarOptionContainer>
-    </div>
+    <SidebarOptionContainer>
+        {Icon && <Icon fontSize="small" style={{ padding: 10 }} />}
+        {Icon ? 
+            <h3>{title}</h3> 
+        : 
+            <SidebarOptionChannel>
+                <span>#</span>
+                {title}
+            </SidebarOptionChannel>}
+    </SidebarOptionContainer>
   )
 }
 

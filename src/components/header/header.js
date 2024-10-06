@@ -5,23 +5,23 @@ import React from 'react';
 import { HeaderAvatar, HeaderContainer, HeaderLeft, HeaderRight, HeaderSearch } from './header.styles';
 
 function Header () {
-    return <HeaderContainer>
-        <HeaderLeft>
-            <HeaderAvatar 
-                
-            />
-            <AccessTimeIcon />
-        </HeaderLeft>
+    return (
+        <HeaderContainer>
+            <HeaderLeft>
+                <HeaderAvatar />
+                <AccessTimeIcon />
+            </HeaderLeft>
 
-        <HeaderSearch>
-            <SearchIcon />
-            <input placeholder="Search" />
-        </HeaderSearch>
+            <HeaderSearch>
+                <SearchIcon />
+                <input placeholder="Search" />
+            </HeaderSearch>
 
-        <HeaderRight>
-            <HelpOutlineIcon />
-        </HeaderRight>
-    </HeaderContainer>;
+            <HeaderRight>
+                <HelpOutlineIcon />
+            </HeaderRight>
+        </HeaderContainer>
+    )
 }
  
 export default Header;
