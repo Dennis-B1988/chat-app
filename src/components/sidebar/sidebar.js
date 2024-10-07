@@ -22,7 +22,7 @@ import { SideBarChannels, SidebarContainer, SidebarHeader, SidebarInfo, SidebarO
 function Sidebar() {
   const [channels] = useCollection(collection(db, 'channels'));
   const [user] = useAuthState(auth);
-  const [expandOptions, setExpandOptions] = useState(true);
+  const [expandOptions, setExpandOptions] = useState(false);
   const [expandChannels, setExpandChannels] = useState(true);
 
   const toggleExpandOptions = () => {
@@ -76,7 +76,6 @@ function Sidebar() {
                 <SidebarOption key={doc.id} id={doc.id} title={doc.data().name}/>
             ))}
         </SideBarChannels>
-
     </SidebarContainer>
   )
 }
