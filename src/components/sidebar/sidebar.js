@@ -11,17 +11,27 @@ import InboxIcon from '@mui/icons-material/Inbox';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { collection } from 'firebase/firestore';
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { auth, db } from '../../environment/firebase.prod';
 import SidebarOption from '../sidebar-option/sidebar-option';
-import { SidebarContainer, SidebarHeader, SidebarInfo } from './sidebar.styles';
+import { SideBarChannels, SidebarContainer, SidebarHeader, SidebarInfo, SidebarOptionContainer } from './sidebar.styles';
 
 
 function Sidebar() {
   const [channels] = useCollection(collection(db, 'channels'));
   const [user] = useAuthState(auth);
+  const [expandOptions, setExpandOptions] = useState(true);
+  const [expandChannels, setExpandChannels] = useState(true);
+
+  const toggleExpandOptions = () => {
+    setExpandOptions(prevState => !prevState);
+  }
+
+  const toggleExpandChannels = () => {
+    setExpandChannels(prevState => !prevState);
+  }
 
   return (
     <SidebarContainer>
@@ -36,22 +46,36 @@ function Sidebar() {
             <CreateIcon />
         </SidebarHeader>
 
-        <SidebarOption Icon={InsertCommentIcon} title="Threads" />
-        <SidebarOption Icon={InboxIcon} title="Mentions & reactions" />
-        <SidebarOption Icon={DraftsIcon} title="Saved items" />
-        <SidebarOption Icon={BookmarkBorderIcon} title="Channel browser" />
-        <SidebarOption Icon={PeopleAltIcon} title="People & user groups" />
-        <SidebarOption Icon={AppsIcon} title="Apps" />
-        <SidebarOption Icon={FileCopyIcon} title="File browser" />
-        <SidebarOption Icon={ExpandLessIcon} title="Show less" />
+        <SidebarOptionContainer style={{ display: expandOptions ? 'block' : 'none' }}>
+            <SidebarOption Icon={InsertCommentIcon} title="Threads" />
+            <SidebarOption Icon={InboxIcon} title="Mentions & reactions" />
+            <SidebarOption Icon={DraftsIcon} title="Saved items" />
+            <SidebarOption Icon={BookmarkBorderIcon} title="Channel browser" />
+            <SidebarOption Icon={PeopleAltIcon} title="People & user groups" />
+            <SidebarOption Icon={AppsIcon} title="Apps" />
+            <SidebarOption Icon={FileCopyIcon} title="File browser" />
+        </SidebarOptionContainer>
+        <SidebarOption 
+            onClick={toggleExpandOptions} 
+            Icon={expandOptions ? ExpandLessIcon : ExpandMoreIcon} 
+            title={expandOptions ? 'Show less' : 'Show more'}
+            toggleList={toggleExpandOptions} 
+        />
         <hr />
-        <SidebarOption Icon={ExpandMoreIcon} title="Channels" />
+        <SidebarOption 
+            onClick={toggleExpandChannels} 
+            Icon={expandChannels ? ExpandMoreIcon : ExpandLessIcon} 
+            title="Channels"
+            toggleList={toggleExpandChannels}
+        />
         <hr />
-        <SidebarOption Icon={AddIcon} addChannelOption title="Add Channel" />
+        <SideBarChannels style={{ display: expandChannels ? 'block' : 'none'}}>
+            <SidebarOption Icon={AddIcon} addChannelOption title="Add Channel" />
 
-        {channels?.docs.map(doc => (
-            <SidebarOption key={doc.id} id={doc.id} title={doc.data().name}/>
-        ))}
+            {channels?.docs.map(doc => (
+                <SidebarOption key={doc.id} id={doc.id} title={doc.data().name}/>
+            ))}
+        </SideBarChannels>
 
     </SidebarContainer>
   )

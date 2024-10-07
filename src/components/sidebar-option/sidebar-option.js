@@ -5,7 +5,7 @@ import { db } from '../../environment/firebase.prod';
 import { enterChannel } from '../../features/appSlice';
 import { SidebarOptionChannel, SidebarOptionContainer } from './sidebar-option.styles';
 
-function SidebarOption({ Icon, title, addChannelOption, id }) {
+function SidebarOption({ Icon, title, addChannelOption, id, toggleList }) {
   const dispatch = useDispatch();
 
   const addChannel = async () => {
@@ -23,8 +23,10 @@ function SidebarOption({ Icon, title, addChannelOption, id }) {
     }
   }
 
+  const handleClick = addChannelOption ? addChannel : id ? selectChannel : toggleList;
+
   return (
-    <SidebarOptionContainer onClick={addChannelOption ? addChannel : selectChannel}>
+    <SidebarOptionContainer onClick={handleClick}>
         {Icon && <Icon fontSize="small" style={{ padding: 10 }} />}
         {Icon ? (
             <h3>{title}</h3> 

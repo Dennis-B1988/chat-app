@@ -28,6 +28,7 @@ export const SidebarHeader = styled.div`
         font-size: 18px;
         background-color: white;
         border-radius: 999px;
+        cursor: pointer;
     }
 `;
 
@@ -53,4 +54,10 @@ export const SidebarInfo = styled.div`
         margin-right: 2px;
         color: green;
     }
+`;
+
+export const SidebarOptionContainer = styled.div``;
+
+export const SideBarChannels = styled.div`
+    flex: 1;
 `;
