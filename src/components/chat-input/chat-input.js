@@ -1,24 +1,26 @@
 import Button from '@mui/material/Button';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import React, { useState } from 'react';
-import { db } from '../../environment/firebase.prod';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth, db } from '../../environment/firebase.prod';
 import { ChatInputContainer } from './chat-input.styles';
 
 function ChatInput({channelName, channelId}) {
     const [input, setInput] = useState('');
+    const [user] = useAuthState(auth);
 
     const sendMessage = async (event) => {
         event.preventDefault();
 
-        if(!channelId) {
+        if(!channelId || !input) {
             return false;
         }
 
         await addDoc(collection(db, 'channels', channelId, 'messages'), {
         timestamp: serverTimestamp(),
         message: input,
-        user: 'Dennis Baust',
-        userImage: 'https://avatars.githubusercontent.com/u/10409711?v=4',
+        user: user.displayName,
+        userImage: user.photoURL,
       });
 
       setInput('');

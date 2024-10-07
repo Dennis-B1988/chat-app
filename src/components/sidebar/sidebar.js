@@ -12,14 +12,16 @@ import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { collection } from 'firebase/firestore';
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import { db } from '../../environment/firebase.prod';
+import { auth, db } from '../../environment/firebase.prod';
 import SidebarOption from '../sidebar-option/sidebar-option';
 import { SidebarContainer, SidebarHeader, SidebarInfo } from './sidebar.styles';
 
 
 function Sidebar() {
-  const [channels, loading, error] = useCollection(collection(db, 'channels'));
+  const [channels] = useCollection(collection(db, 'channels'));
+  const [user] = useAuthState(auth);
 
   return (
     <SidebarContainer>
@@ -28,7 +30,7 @@ function Sidebar() {
                 <h2>Chat-App</h2>
                 <h3>
                     <FiberManualRecordIcon />
-                    Dennis Baust
+                    {user?.displayName}
                 </h3>
             </SidebarInfo>
             <CreateIcon />

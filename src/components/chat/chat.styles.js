@@ -56,12 +56,6 @@ export const ChatMessages = styled.div`
 
 `;
 
-export const ChatInput = styled.div`
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    position: sticky;
-    bottom: 0;
-    background-color: white;
-    z-index: 100;
+export const ChatBottom = styled.div`
+    padding-bottom: 200px;
 `;
