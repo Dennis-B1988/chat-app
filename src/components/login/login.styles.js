@@ -26,4 +26,10 @@ export const LoginInnerContainer = styled.div`
         background-color: #0a8d48 !important;
         color: white;
     }
+
+    .guest {
+        font-size: 14px;
+        margin-top: 10px;
+        cursor: pointer;
+    }
 `;

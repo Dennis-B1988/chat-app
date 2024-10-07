@@ -8,6 +8,7 @@ import { ChatInputContainer } from './chat-input.styles';
 function ChatInput({channelName, channelId}) {
     const [input, setInput] = useState('');
     const [user] = useAuthState(auth);
+    const guestAvatar = './assets/img/guest_avatar.png';
 
     const sendMessage = async (event) => {
         event.preventDefault();
@@ -19,8 +20,8 @@ function ChatInput({channelName, channelId}) {
         await addDoc(collection(db, 'channels', channelId, 'messages'), {
         timestamp: serverTimestamp(),
         message: input,
-        user: user.displayName,
-        userImage: user.photoURL,
+        user: user.displayName || 'Guest',
+        userImage: user.photoURL || guestAvatar,
       });
 
       setInput('');
