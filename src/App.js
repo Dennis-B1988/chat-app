@@ -7,11 +7,19 @@ import { AppBody, AppLoading, AppLoadingContent } from './App.styles';
 import Chat from './components/chat/chat';
 import Header from './components/header/header';
 import Login from './components/login/login';
+import PrivacyPolicy from './components/privacy-policy/privacy-policy';
+import SidebarMobileButton from './components/sidebar-mobile-button/sidebar-mobile-button';
 import Sidebar from './components/sidebar/sidebar';
 import { auth } from './environment/firebase.prod';
 
 function App() {
   const [user, loading] = useAuthState(auth);
+  const [showPolicy, setshowPolicy] = React.useState(false);
+  const [$isSidebarVisible, setIsSidebarVisible] = React.useState(false);
+
+  const togglePolicy = () => setshowPolicy(prev => !prev);
+
+  const toggleSidebar = () => setIsSidebarVisible(prev => !prev);
 
   if (loading) {
     return (
@@ -29,9 +37,11 @@ function App() {
       <Router>
         {!user ? <Login /> : 
       <>
-        <Header />
+        <Header togglePolicy={togglePolicy} showPolicy={showPolicy} />
         <AppBody>
-          <Sidebar />
+          {showPolicy && <PrivacyPolicy />}
+          <Sidebar $isSidebarVisible={$isSidebarVisible} />
+          <SidebarMobileButton toggleSidebar={toggleSidebar} />
           <Routes>
             <Route path="/" element={<Chat />}/>   
           </Routes>

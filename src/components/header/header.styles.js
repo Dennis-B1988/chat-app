@@ -44,6 +44,10 @@ export const HeaderSearch = styled.div`
         outline: 0;
         color: white;
     }
+
+    @media (max-width: 767px) {
+        padding: 0 15px;
+    }
 `;
 
 export const HeaderRight = styled.div`
@@ -54,6 +58,7 @@ export const HeaderRight = styled.div`
     > .MuiSvgIcon-root {
         margin-left: auto;
         margin-right: 20px;
+        cursor: pointer;
     }
 `;
 

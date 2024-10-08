@@ -15,6 +15,17 @@ export const SidebarContainer = styled.div`
         margin-bottom: 10px;
         border: 1px solid #49274b;
     }
+
+    @media (max-width: 767px) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 999;
+        transform: ${({ $isSidebarVisible }) => ($isSidebarVisible ? 'translateX(0)' : 'translateX(-100%)')};
+        transition: transform 0.3s ease-in-out;
+    }
 `;
 
 export const SidebarHeader = styled.div`

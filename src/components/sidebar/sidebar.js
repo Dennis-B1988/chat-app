@@ -19,7 +19,7 @@ import SidebarOption from '../sidebar-option/sidebar-option';
 import { SideBarChannels, SidebarContainer, SidebarHeader, SidebarInfo, SidebarOptionContainer } from './sidebar.styles';
 
 
-function Sidebar() {
+function Sidebar({ $isSidebarVisible }) {
   const [channels] = useCollection(collection(db, 'channels'));
   const [user] = useAuthState(auth);
   const [expandOptions, setExpandOptions] = useState(false);
@@ -34,13 +34,13 @@ function Sidebar() {
   }
 
   return (
-    <SidebarContainer>
+    <SidebarContainer $isSidebarVisible={$isSidebarVisible}>
         <SidebarHeader>
             <SidebarInfo>
                 <h2>Chat-App</h2>
                 <h3>
                     <FiberManualRecordIcon />
-                    {user?.displayName}
+                    {user?.displayName || 'Guest'}
                 </h3>
             </SidebarInfo>
             <CreateIcon />

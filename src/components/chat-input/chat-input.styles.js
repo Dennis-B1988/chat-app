@@ -21,4 +21,10 @@ export const ChatInputContainer = styled.div`
     > form > button {
         display: none !important;
     }
+
+    @media (max-width: 767px) {
+        > form > input {
+            width: 45%;
+        }
+    }
 `;
