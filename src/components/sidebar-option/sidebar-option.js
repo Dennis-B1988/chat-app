@@ -5,6 +5,19 @@ import { db } from '../../environment/firebase.prod';
 import { enterChannel } from '../../features/appSlice';
 import { SidebarOptionChannel, SidebarOptionContainer } from './sidebar-option.styles';
 
+/**
+ * A component that renders a single option in the sidebar. It can be one of three types:
+ * - A channel option, which is a clickable item with a title and an optional icon.
+ * - An add channel option, which is a button that creates a new channel when clicked.
+ * - A toggle list option, which is a button that toggles the visibility of the options list when clicked.
+ * @param {{ Icon: ReactElement, title: string, addChannelOption: boolean, id: string, toggleList: function }} props
+ * @prop {ReactElement} Icon a React element of an icon to display
+ * @prop {string} title the title of the option
+ * @prop {boolean} addChannelOption whether the option is an add channel option
+ * @prop {string} id the id of the channel to select if the option is a channel option
+ * @prop {function} toggleList a function to call when the option is clicked if the option is a toggle list option
+ * @returns {ReactElement} a JSX element of the option
+ */
 function SidebarOption({ Icon, title, addChannelOption, id, toggleList }) {
   const dispatch = useDispatch();
 

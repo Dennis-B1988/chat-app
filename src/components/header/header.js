@@ -6,6 +6,16 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../environment/firebase.prod';
 import { HeaderAvatar, HeaderContainer, HeaderLeft, HeaderRight, HeaderSearch } from './header.styles';
 
+/**
+ * A Header component that displays the user's avatar and allows them to search
+ * channels, sign out and delete their user from the database, and toggle the
+ * privacy policy dialog.
+ *
+ * @param {function} togglePolicy - a function to toggle the showPolicy state
+ * @param {boolean} showPolicy - a boolean indicating if the privacy policy dialog
+ * should be shown
+ * @returns {React.ReactElement} - a React element representing the Header component
+ */
 function Header ({togglePolicy, showPolicy}) {
     const [user] = useAuthState(auth);
 

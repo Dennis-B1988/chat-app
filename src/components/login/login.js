@@ -4,6 +4,13 @@ import React from 'react';
 import { auth, provider } from '../../environment/firebase.prod';
 import { LoginContainer, LoginInnerContainer } from './login.styles';
 
+/**
+ * The Login component is the page that a user will see when they first go to the
+ * site. It contains a button to sign in with Google, and a link to sign in as a
+ * guest.
+ *
+ * @returns {ReactElement} The Login component.
+ */
 function Login() {
 
     const signIn = async (event) => {

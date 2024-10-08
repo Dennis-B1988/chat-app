@@ -9,6 +9,16 @@ import ChatInput from '../chat-input/chat-input';
 import Message from '../message/message';
 import { ChatBottom, ChatContainer, ChatHeader, ChatHeaderLeft, ChatHeaderRight, ChatMessages } from './chat.styles';
 
+/**
+ * This component renders a chat window based on the selected channel.
+ * The component loads the channel details and its messages from the Firestore database.
+ * It also includes a ChatInput component at the bottom of the chat window.
+ * The component is a scrollable container, and it will scroll to the bottom of the chat window
+ * whenever a new message is posted.
+ * The component also deletes messages that are more than 24 hours old.
+ * @function Chat
+ * @returns {ReactElement}
+ */
 function Chat() {
     const chatRef = React.useRef(null);
     const channelId = useSelector((state) => state.app.channelId);

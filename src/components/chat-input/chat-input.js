@@ -5,6 +5,13 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '../../environment/firebase.prod';
 import { ChatInputContainer } from './chat-input.styles';
 
+/**
+ * React component that renders a chat input form. It will send a message to
+ * the Firestore database when the form is submitted.
+ * @param {string} channelName The name of the channel to send the message to.
+ * @param {string} channelId The ID of the channel to send the message to.
+ * @returns {ReactElement} A JSX element representing the chat input form.
+ */
 function ChatInput({channelName, channelId}) {
     const [input, setInput] = useState('');
     const [user] = useAuthState(auth);

@@ -18,7 +18,13 @@ import { auth, db } from '../../environment/firebase.prod';
 import SidebarOption from '../sidebar-option/sidebar-option';
 import { SideBarChannels, SidebarContainer, SidebarHeader, SidebarInfo, SidebarOptionContainer } from './sidebar.styles';
 
-
+/**
+ * Sidebar component. Conditionally renders a list of channel options or a list of channels, 
+ * depending on the expandChannels state.
+ * @param {{ $isSidebarVisible: boolean }} props
+ * @prop {boolean} $isSidebarVisible if the sidebar is visible or not
+ * @returns {React.ReactElement} The sidebar component
+ */
 function Sidebar({ $isSidebarVisible }) {
   const [channels] = useCollection(collection(db, 'channels'));
   const [user] = useAuthState(auth);
