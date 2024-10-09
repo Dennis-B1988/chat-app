@@ -3,6 +3,7 @@ import { onAuthStateChanged, signInAnonymously, signInWithPopup, updateProfile }
 import React, { useEffect, useState } from 'react';
 import { auth, provider } from '../../environment/firebase.prod';
 import { LoginContainer, LoginInnerContainer } from './login.styles';
+import useAuth from '../../hooks/useAuth';
 
 /**
  * Handles login functionality for the app.
@@ -12,14 +13,7 @@ import { LoginContainer, LoginInnerContainer } from './login.styles';
 function Login() {
     const [name, setName] = useState('');
     const [error, setError] = useState(false);
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (updatedUser) => {
-            setUser(updatedUser);
-        });
-        return () => unsubscribe();
-    }, []);
+    const { updateUserProfile, updateLocalUser } = useAuth();
 
     /**
      * Handles signing in with Google.
@@ -50,8 +44,10 @@ function Login() {
     }
 
     /**
-     * Handles signing in as a guest, which creates an anonymous Firebase
-     * account and updates the display name to the provided input value.
+     * Handles signing in as a guest, with the given name.
+     *
+     * If the name is empty, sets the error state to true and does not
+     * sign in.
      *
      * @param {React.FormEvent<HTMLFormElement>} event The form event
      * @return {Promise<void>}
@@ -64,11 +60,8 @@ function Login() {
         }
         try {
             await signInAnonymously(auth);
-            const currentUser = auth.currentUser;
-            if (currentUser) {
-                await updateProfile(currentUser, { displayName: name });
-                setUser({ ...currentUser, displayName: name });
-            }
+            updateLocalUser(name);
+            await updateUserProfile(name);
         } catch (er) {
             alert(er.message);
         }

@@ -10,11 +10,11 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import InboxIcon from '@mui/icons-material/Inbox';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import { onAuthStateChanged } from 'firebase/auth';
 import { collection } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import { auth, db } from '../../environment/firebase.prod';
+import { db } from '../../environment/firebase.prod';
+import useAuth from '../../hooks/useAuth';
 import SidebarOption from '../sidebar-option/sidebar-option';
 import { SideBarChannels, SidebarContainer, SidebarHeader, SidebarInfo, SidebarOptionContainer } from './sidebar.styles';
 
@@ -26,17 +26,10 @@ import { SideBarChannels, SidebarContainer, SidebarHeader, SidebarInfo, SidebarO
  * @returns {React.ReactElement} The sidebar component
  */
 function Sidebar({ $isSidebarVisible }) {
-  const [channels] = useCollection(collection(db, 'channels'));
-    const [user, setUser] = useState(null);
+    const [channels] = useCollection(collection(db, 'channels'));
     const [expandOptions, setExpandOptions] = useState(false);
     const [expandChannels, setExpandChannels] = useState(true);
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (updatedUser) => {
-            setUser(updatedUser);
-        });
-        return () => unsubscribe();
-    }, []);
+    const { user } = useAuth();
 
     /**
      * Toggles the expandOptions state variable, which determines whether the options sidebar is visible or not.

@@ -25,3 +25,7 @@ export const AppLoadingContent = styled.div`
     margin-bottom: 40px;
   }
 `;
+
+export const SidebarMobileButton = styled.div`
+  display: none;
+`;
