@@ -27,7 +27,7 @@ function ChatInput({channelName, channelId}) {
         await addDoc(collection(db, 'channels', channelId, 'messages'), {
         timestamp: serverTimestamp(),
         message: input,
-        user: user.displayName || 'Guest',
+        user: user.displayName,
         userImage: user.photoURL || guestAvatar,
       });
 

@@ -10,9 +10,9 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import InboxIcon from '@mui/icons-material/Inbox';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import { onAuthStateChanged } from 'firebase/auth';
 import { collection } from 'firebase/firestore';
-import React, { useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
+import React, { useEffect, useState } from 'react';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { auth, db } from '../../environment/firebase.prod';
 import SidebarOption from '../sidebar-option/sidebar-option';
@@ -27,63 +27,75 @@ import { SideBarChannels, SidebarContainer, SidebarHeader, SidebarInfo, SidebarO
  */
 function Sidebar({ $isSidebarVisible }) {
   const [channels] = useCollection(collection(db, 'channels'));
-  const [user] = useAuthState(auth);
-  const [expandOptions, setExpandOptions] = useState(false);
-  const [expandChannels, setExpandChannels] = useState(true);
+    const [user, setUser] = useState(null);
+    const [expandOptions, setExpandOptions] = useState(false);
+    const [expandChannels, setExpandChannels] = useState(true);
 
-  const toggleExpandOptions = () => {
-    setExpandOptions(prevState => !prevState);
-  }
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (updatedUser) => {
+            setUser(updatedUser);
+        });
+        return () => unsubscribe();
+    }, []);
 
-  const toggleExpandChannels = () => {
-    setExpandChannels(prevState => !prevState);
-  }
+    /**
+     * Toggles the expandOptions state variable, which determines whether the options sidebar is visible or not.
+     */
+    const toggleExpandOptions = () => {
+        setExpandOptions(prevState => !prevState);
+    }
 
-  return (
-    <SidebarContainer $isSidebarVisible={$isSidebarVisible}>
-        <SidebarHeader>
-            <SidebarInfo>
-                <h2>Chat-App</h2>
-                <h3>
-                    <FiberManualRecordIcon />
-                    {user?.displayName || 'Guest'}
-                </h3>
-            </SidebarInfo>
-            <CreateIcon />
-        </SidebarHeader>
+    /**
+     * Toggles the expandChannels state variable, which determines whether the channels sidebar is visible or not.
+     */
+    const toggleExpandChannels = () => {
+        setExpandChannels(prevState => !prevState);
+    }
 
-        <SidebarOptionContainer style={{ display: expandOptions ? 'block' : 'none' }}>
-            <SidebarOption Icon={InsertCommentIcon} title="Threads" />
-            <SidebarOption Icon={InboxIcon} title="Mentions & reactions" />
-            <SidebarOption Icon={DraftsIcon} title="Saved items" />
-            <SidebarOption Icon={BookmarkBorderIcon} title="Channel browser" />
-            <SidebarOption Icon={PeopleAltIcon} title="People & user groups" />
-            <SidebarOption Icon={AppsIcon} title="Apps" />
-            <SidebarOption Icon={FileCopyIcon} title="File browser" />
-        </SidebarOptionContainer>
-        <SidebarOption 
-            onClick={toggleExpandOptions} 
-            Icon={expandOptions ? ExpandLessIcon : ExpandMoreIcon} 
-            title={expandOptions ? 'Show less' : 'Show more'}
-            toggleList={toggleExpandOptions} 
-        />
-        <hr />
-        <SidebarOption 
-            onClick={toggleExpandChannels} 
-            Icon={expandChannels ? ExpandMoreIcon : ExpandLessIcon} 
-            title="Channels"
-            toggleList={toggleExpandChannels}
-        />
-        <hr />
-        <SideBarChannels style={{ display: expandChannels ? 'block' : 'none'}}>
-            <SidebarOption Icon={AddIcon} addChannelOption title="Add Channel" />
+    return (
+        <SidebarContainer $isSidebarVisible={$isSidebarVisible}>
+            <SidebarHeader>
+                <SidebarInfo>
+                    <h2>Chat-App</h2>
+                    <h3>
+                        <FiberManualRecordIcon />
+                        {user?.displayName}
+                    </h3>
+                </SidebarInfo>
+                <CreateIcon />
+            </SidebarHeader>
 
-            {channels?.docs.map(doc => (
-                <SidebarOption key={doc.id} id={doc.id} title={doc.data().name}/>
-            ))}
-        </SideBarChannels>
-    </SidebarContainer>
-  )
+            <SidebarOptionContainer style={{ display: expandOptions ? 'block' : 'none' }}>
+                <SidebarOption Icon={InsertCommentIcon} title="Threads" />
+                <SidebarOption Icon={InboxIcon} title="Mentions & reactions" />
+                <SidebarOption Icon={DraftsIcon} title="Saved items" />
+                <SidebarOption Icon={BookmarkBorderIcon} title="Channel browser" />
+                <SidebarOption Icon={PeopleAltIcon} title="People & user groups" />
+                <SidebarOption Icon={AppsIcon} title="Apps" />
+                <SidebarOption Icon={FileCopyIcon} title="File browser" />
+            </SidebarOptionContainer>
+            <SidebarOption
+                onClick={toggleExpandOptions}
+                Icon={expandOptions ? ExpandLessIcon : ExpandMoreIcon}
+                title={expandOptions ? 'Show less' : 'Show more'}
+                toggleList={toggleExpandOptions}
+            />
+            <hr />
+            <SidebarOption
+                onClick={toggleExpandChannels}
+                Icon={expandChannels ? ExpandMoreIcon : ExpandLessIcon}
+                title="Channels"
+                toggleList={toggleExpandChannels}
+            />
+            <hr />
+            <SideBarChannels style={{ display: expandChannels ? 'block' : 'none' }}>
+                <SidebarOption Icon={AddIcon} addChannelOption title="Add Channel" />
+                {channels?.docs.map(doc => (
+                    <SidebarOption key={doc.id} id={doc.id} title={doc.data().name} />
+                ))}
+            </SideBarChannels>
+        </SidebarContainer>
+    )
 }
 
 export default Sidebar;

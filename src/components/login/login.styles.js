@@ -8,6 +8,8 @@ export const LoginContainer = styled.div`
 `;
 
 export const LoginInnerContainer = styled.div`
+    display: flex;
+    flex-direction: column;
     padding: 100px;
     text-align: center;
     background-color: white;
@@ -21,15 +23,17 @@ export const LoginInnerContainer = styled.div`
     }
 
     > button {
-        margin-top: 50px;
+        margin-top: 20px;
         text-transform: inherit !important;
         background-color: #0a8d48 !important;
         color: white;
     }
 
-    .guest {
-        font-size: 14px;
+    .MuiTextField-root {
         margin-top: 10px;
-        cursor: pointer;
+    }
+
+    .guest {
+        background-color: #0a8d48 !important;
     }
 `;

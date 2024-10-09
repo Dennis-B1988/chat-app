@@ -1,51 +1,103 @@
-import { Button } from '@mui/material';
-import { signInAnonymously, signInWithPopup } from 'firebase/auth';
-import React from 'react';
+import { Button, TextField } from '@mui/material';
+import { onAuthStateChanged, signInAnonymously, signInWithPopup, updateProfile } from 'firebase/auth';
+import React, { useEffect, useState } from 'react';
 import { auth, provider } from '../../environment/firebase.prod';
 import { LoginContainer, LoginInnerContainer } from './login.styles';
 
 /**
- * The Login component is the page that a user will see when they first go to the
- * site. It contains a button to sign in with Google, and a link to sign in as a
- * guest.
+ * Handles login functionality for the app.
  *
- * @returns {ReactElement} The Login component.
+ * @return {React.ReactElement} The JSX element to render.
  */
 function Login() {
+    const [name, setName] = useState('');
+    const [error, setError] = useState(false);
+    const [user, setUser] = useState(null);
 
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (updatedUser) => {
+            setUser(updatedUser);
+        });
+        return () => unsubscribe();
+    }, []);
+
+    /**
+     * Handles signing in with Google.
+     *
+     * @param {React.FormEvent<HTMLFormElement>} event The form event
+     * @return {Promise<void>}
+     */
     const signIn = async (event) => {
         event.preventDefault();
         try {
             await signInWithPopup(auth, provider);
-        } catch (error) {
-            alert(error.message);
+        } catch (er) {
+            alert(er.message);
         }
     }
 
+    /**
+     * Handles changes to the text input, updating the state and
+     * clearing the error if the input is valid.
+     *
+     * @param {React.ChangeEvent<HTMLInputElement>} event The input event
+     */
+    const handleInput = (event) => {
+        setName(event.target.value);
+        if (event.target.value.trim() !== '') {
+            setError(false);
+        }
+    }
+
+    /**
+     * Handles signing in as a guest, which creates an anonymous Firebase
+     * account and updates the display name to the provided input value.
+     *
+     * @param {React.FormEvent<HTMLFormElement>} event The form event
+     * @return {Promise<void>}
+     */
     const signInGuest = async (event) => {
         event.preventDefault();
+        if (name.trim() === '') {
+            setError(true);
+            return;
+        }
         try {
             await signInAnonymously(auth);
-        } catch (error) {
-            alert(error.message);
+            const currentUser = auth.currentUser;
+            if (currentUser) {
+                await updateProfile(currentUser, { displayName: name });
+                setUser({ ...currentUser, displayName: name });
+            }
+        } catch (er) {
+            alert(er.message);
         }
     }
 
-  return (
-    <LoginContainer>
-        <LoginInnerContainer>
-            <img src="./assets/img/logo_slack_icon.png" alt="slack icon" />
-            <h1>Sign in to Chat-App</h1>
-            <p>chat-app.dennis-baust.com</p>
+    return (
+        <LoginContainer>
+            <LoginInnerContainer>
+                <img src="./assets/img/logo_slack_icon.png" alt="slack icon" />
+                <h1>Sign in to Chat-App</h1>
+                <p>chat-app.dennis-baust.com</p>
 
-            <Button 
-                onClick={signIn}>
-                Sign in with Google
-            </Button>
-            <p className='guest' onClick={signInGuest}>Guest Login</p>
-        </LoginInnerContainer>
-    </LoginContainer>
-  )
+                <TextField
+                    onChange={handleInput}
+                    className='name'
+                    placeholder="Name"
+                    variant="outlined"
+                    error={error}
+                    helperText={error ? "Please enter a name." : ""}
+                />
+                <Button className='guest' onClick={signInGuest}>Guest Login</Button>
+
+                <Button
+                    onClick={signIn} disabled>
+                    Sign in with Google
+                </Button>
+            </LoginInnerContainer>
+        </LoginContainer>
+    )
 }
 
-export default Login
+export default Login;
