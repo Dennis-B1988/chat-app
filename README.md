@@ -17,8 +17,8 @@ Chat-App lets you **log in with Google** or join as a **guest**, create new chat
 ## 🛠️ Tech Stack
 
 - **React** (frontend)
-- **Firebase** (authentication, database, hosting)
-- **Tailwind CSS** (UI styling)
+- **Firebase** (authentication, database)
+- **CSS Styled Components** (UI styling)
 
 ---
 
