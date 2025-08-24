@@ -16,36 +16,41 @@ import { HeaderAvatar, HeaderContainer, HeaderLeft, HeaderRight, HeaderSearch } 
  * should be shown
  * @returns {React.ReactElement} - a React element representing the Header component
  */
-function Header ({togglePolicy, showPolicy}) {
-    const [user] = useAuthState(auth);
+function Header({ togglePolicy, showPolicy }) {
+  const [user] = useAuthState(auth);
 
-    const signOutAndDeleteUserFromDatabase = async () => {
-        // Google log disabled for privacy reasons, only for testing purposes implemented
-        // const provider = new GoogleAuthProvider();
-        // await signInWithPopup(auth, provider);
+  const signOutAndDeleteUserFromDatabase = async () => {
+    // Google log disabled for privacy reasons, only for testing purposes implemented
+    // const provider = new GoogleAuthProvider();
+    // await signInWithPopup(auth, provider);
 
-        await user.delete();
-        await auth.signOut();
-    }
+    await user.delete();
+    await auth.signOut();
+  };
 
-    return (
-        <HeaderContainer>
-            <HeaderLeft>
-                <HeaderAvatar onClick={signOutAndDeleteUserFromDatabase} src={user?.photoURL} alt={user?.displayName} />
-            </HeaderLeft>
+  return (
+    <HeaderContainer>
+      <HeaderLeft>
+        <HeaderAvatar
+          onClick={signOutAndDeleteUserFromDatabase}
+          src={user?.photoURL}
+          alt={user?.displayName}
+        />
+      </HeaderLeft>
 
-            <HeaderSearch>
-                <SearchIcon />
-                <input placeholder="Search" />
-            </HeaderSearch>
+      <HeaderSearch>
+        <SearchIcon />
+        <input placeholder="Search" />
+      </HeaderSearch>
 
-            <HeaderRight>
-                <HelpOutlineIcon 
-                    onClick={togglePolicy} 
-                    style={{ color: showPolicy ? 'gray' : 'white'}} />
-            </HeaderRight>
-        </HeaderContainer>
-    )
+      <HeaderRight>
+        <HelpOutlineIcon
+          onClick={togglePolicy}
+          style={{ color: showPolicy ? 'gray' : 'white' }}
+        />
+      </HeaderRight>
+    </HeaderContainer>
+  );
 }
- 
+
 export default Header;
